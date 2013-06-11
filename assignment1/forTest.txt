@@ -1,0 +1,4 @@
+for a 1 10
+    asdf := x + 1
+rof
+$$

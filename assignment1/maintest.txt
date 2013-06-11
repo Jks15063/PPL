@@ -1,0 +1,32 @@
+read filename
+write filename
+
+for a 1 10
+    while v >= t
+        if x <= u
+            if x != 0
+                asdf := x + 1
+                Y := x / 2
+                z := x * 5
+                i := x - 1
+            fi
+        fi
+    elihw
+
+    while b == r
+        if b < 5
+            b := b - 1
+        fi
+        if b > 3
+            for var 2 26
+                if varName == 123456
+                    b := b + 3
+                    write fileName
+                fi
+            rof
+            varName := 45 + 34
+        fi
+    elihw
+rof
+$$
+

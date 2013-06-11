@@ -1,0 +1,9 @@
+while a != b
+    if a > b
+        a := a - b
+    fi
+    if a <= b
+        b := b - a
+    fi
+elihw
+$$
