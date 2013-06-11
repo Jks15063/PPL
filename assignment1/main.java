@@ -67,10 +67,14 @@ class main {
     */
     public static void program() {
         System.out.println("Start Program:");
-        if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern) || sc.hasNext(eofPattern)) {
+        if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern) || !sc.hasNext()) {
             statementList();
-            match(eofPattern);
-            System.out.println("No syntax errors detected.");
+            if (!sc.hasNext()) {
+                System.out.println("No syntax errors detected.");
+            }
+            else {
+                error("program");
+            }
         }
         else {
             error("program");
@@ -103,7 +107,7 @@ class main {
         else if (sc.hasNext(endWhilePattern)) {
             return;
         }
-        else if (sc.hasNext(eofPattern)) {
+        else if (!sc.hasNext()) {
             return;
         }
         else {
