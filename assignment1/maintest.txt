@@ -1,4 +1,4 @@
-read filename
+read input
 write filename
 
 for a 1 10
@@ -28,4 +28,3 @@ for a 1 10
         fi
     elihw
 rof
-

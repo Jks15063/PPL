@@ -7,15 +7,23 @@ import java.util.Scanner;
  * CS 3210
  * main.java
  * Purpose: Use top-down recursion to parse a language.
+ * Approach: The structure of the program closely resembles the structure
+ * of the grammar that it parses. The goal according to the book is to create a set of
+ * subroutines that correspond 1:1 to the non-terminals of the grammar,
+ * with no loops or if statements.
+ * There are no loops in the program but that are many if statements,
+ * perhaps the author simply prefers case statements as seen in the
+ * pseudo code.
  *
  * @author Jacob Sellers
- * @version 1.0
+ * @version 1.1 refactored to parse files without end of file tokens.
  * @since 2013-06-10
  */
 class main {
     private static Scanner sc = new Scanner(System.in);
     private static String token;
 
+    //The token pattern matches white space, and unprintable chars such as a newline.
     private static Pattern tokenPattern = Pattern.compile("[ \r\n\t]+");
     private static Pattern idPattern = Pattern.compile("[a-zA-Z]+");
     private static Pattern numberPattern = Pattern.compile("[0-9]+");
@@ -30,7 +38,6 @@ class main {
     private static Pattern endIfPattern = Pattern.compile("fi");
     private static Pattern assignmentPattern = Pattern.compile(":=");
     private static Pattern comparisonPattern = Pattern.compile("==|\\!=|<=|>=|<|>");
-    private static Pattern eofPattern = Pattern.compile("\\$\\$");
 
    /**
     * The main method for the 'main' program.
@@ -62,7 +69,7 @@ class main {
     }
 
    /**
-    * Starts the program off by checking for a valid beginning to a statement list.
+    * Start and exit point of the program, starts off by checking for a valid beginning to a statement list.
     *
     */
     public static void program() {
@@ -85,6 +92,7 @@ class main {
     * Checks for a valid beginning to a statement list and if it finds one,
     * calls the statement method and itself. Also checks for the end of file token and
     * returns if it is found.
+    * Exit point for loops and conditionals.
     *
     */
     public static void statementList() {
@@ -97,16 +105,6 @@ class main {
             statement();
             statementList();
         }
-        else if (sc.hasNext(endIfPattern)) {
-            //match(endIfPattern);
-            return;
-        }
-        else if (sc.hasNext(endForPattern)) {
-            return;
-        }
-        else if (sc.hasNext(endWhilePattern)) {
-            return;
-        }
         else if (!sc.hasNext()) {
             return;
         }
@@ -116,7 +114,8 @@ class main {
     }
 
    /**
-    * Checks for valid statement syntax.
+    * Checks for valid statement syntax and makes further
+    * method calls.
     *
     */
     public static void statement() {
@@ -245,3 +244,75 @@ class main {
         System.exit(-1);
     }
 }
+
+
+//Tests:
+//My tests started of very simple to test for individual cases such as:
+
+/*
+ * a := a + 1
+ */
+
+//then:
+
+/*
+ * if a < b
+ *     a := a + 1
+ * fi
+ */
+
+//then:
+
+/*
+ * while a < 10
+ *     if a < b
+ *         a := a + 1
+ *     fi
+ * elihw
+ */
+
+//and finally:
+
+/*
+ * read input
+ * write filename
+ *
+ * for a 1 10
+ *     while v >= t
+ *         if x <= u
+ *             if x != 0
+ *                 asdf := x + 1
+ *                 Y := x / 2
+ *                 z := x * 5
+ *                 i := x - 1
+ *             fi
+ *         fi
+ *     elihw
+ *
+ *     while b == r
+ *         if b < 5
+ *             b := b - 1
+ *         fi
+ *         if b > 3
+ *             for var 2 26
+ *                 if varName == 123456
+ *                     b := b + 3
+ *                     write fileName
+ *                 fi
+ *             rof
+ *             varName := 45 + 34
+ *         fi
+ *     elihw
+ * rof
+ */
+
+/*
+ * I made sure there were lots of nested statements of different types
+ * and tried to use all the possible cases.  After this was being parsed
+ * successfully, I started removing and adding things or just mixing them up
+ * to check that not only was it catching the bad syntax but catching it for
+ * the right reasons and at the right places.  For example: I found at one point
+ * that I could remove all the 'fi's and still get a successful parse, and after
+ * fixing that problem I found that I could remove the if statements
+ * themselves but leave in the 'fi's and still get a successful parse.
+ */
