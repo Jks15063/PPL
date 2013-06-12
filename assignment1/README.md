@@ -2,31 +2,31 @@ Assignment 1
 ============
 Create a recursive-descent parser in Java that parses the following language:
 
-+program -> statementList
++ program -> statementList
 
-+statementList -> statement statementList | ε
++ statementList -> statement statementList | ε
 
-+statement -> "read" id | "write" id  | forLoop | whileLoop | conditional | id ":=" expression
++ statement -> "read" id | "write" id  | forLoop | whileLoop | conditional | id ":=" expression
 
-+expression -> term operation term
++ expression -> term operation term
 
-+term -> id | number
++ term -> id | number
 
-+id -> "[a-zA-Z]+"
++ id -> "[a-zA-Z]+"
 
-+number -> “[0-9]+”
++ number -> “[0-9]+”
 
-+operation -> "+" | "-" | "/" | "*"
++ operation -> "+" | "-" | "/" | "*"
 
-+forLoop ->  "for" id number number statementList "rof"
++ forLoop ->  "for" id number number statementList "rof"
 
-+whileLoop -> "while" condition statementList "elihw" |
++ whileLoop -> "while" condition statementList "elihw" |
 
-+conditional -> "if" condition statementList "fi" |
++ conditional -> "if" condition statementList "fi" |
 
-+condition -> id comparison term
++ condition -> id comparison term
 
-+comparison -> "==" | "!=" | "<" | ">" | "<=" | ">="
++ comparison -> "==" | "!=" | "<" | ">" | "<=" | ">="
 
 Read from System.in. Your parser must be able to parse sufficiently complicated programs in this language such as:
 
