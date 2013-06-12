@@ -1,4 +1,4 @@
 PPL
 ===
 
-PPL Assignments
+Principals of Programming Assignments
