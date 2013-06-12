@@ -30,11 +30,11 @@ Create a recursive-descent parser in Java that parses the following language:
 
 Read from System.in. Your parser must be able to parse sufficiently complicated programs in this language such as:
 
- while a != b
-     if a > b
-         a := a − b
-     fi
-     if a <= b
-         b := b – a
-     fi
- elihw
+    while a != b
+        if a > b
+            a := a − b
+        fi
+        if a <= b
+            b := b – a
+        fi
+    elihw
