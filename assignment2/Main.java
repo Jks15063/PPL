@@ -21,6 +21,7 @@ class Main {
     private static Hashtable<String, Integer> variables = new Hashtable<String, Integer>();
     private static boolean execute = true;
     private static Integer ifCount = 0;
+    private static Integer whileCount = 0;
 
     //The token pattern matches white space, and unprintable chars such as a newline.
     private static Pattern tokenPattern = Pattern.compile("[ \r\n\t]+");
@@ -122,7 +123,7 @@ class Main {
             match(readPattern);
             match(idPattern);
             if (execute) {
-                System.out.println("Enter a number");
+                System.out.println("Enter a number:");
                 variables.put(token, Integer.parseInt(user_input.next()));
             }
         }
@@ -135,9 +136,18 @@ class Main {
         }
         else if (sc.hasNext(startWhilePattern)) {
             match(startWhilePattern);
-            condition();
+            execute = condition();
+            if (!execute) {
+                whileCount++;
+            }
             statementList();
             match(endWhilePattern);
+            if (!execute) {
+                whileCount--;
+            }
+            if (whileCount == 0) {
+                execute = true;
+            }
         }
         else if (sc.hasNext(startForPattern)) {
             match(startForPattern);
