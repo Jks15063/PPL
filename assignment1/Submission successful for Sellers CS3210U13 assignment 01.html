@@ -1,0 +1,483 @@
+
+<!-- saved from url=(0045)https://67.190.115.143/~cs3210u13//upload.cgi -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Submission successful for Sellers CS3210U13 assignment 01</title>
+<style type="text/css"></style></head>
+<body>
+<h2>
+<center>Submission successful for Sellers CS3210U13 assignment 01</center>
+</h2>
+Your assignment number 01 with 8813 bytes was successfully
+submitted at Thu Jun 13 21:50:16 MDT 2013.  You probably want to print this page out as proof of
+turning in your program.
+<hr>
+<pre></pre>
+<pre>Starting audit...
+/tmp/25781/Main.java:2: Using the '.*' form of import should be avoided - java.util.regex.*.
+/tmp/25781/Main.java:3: Using the '.*' form of import should be avoided - java.io.*.
+/tmp/25781/Main.java:22:1: Class should define a constructor.
+/tmp/25781/Main.java:77:9: Boolean expression complexity is 5 (max allowed is 3).
+/tmp/25781/Main.java:100:9: Boolean expression complexity is 4 (max allowed is 3).
+Audit done.
+</pre>
+<h3>Run number 1</h3>
+<hr>
+Your assignment will be run with the following input:
+<hr>
+<pre>A := 1 + 2
+write A
+</pre>
+<hr>
+Running...
+<hr>
+<pre>Start Program:
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: A
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [0-9]+
+Matched: 1
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [0-9]+
+Matched: 2
+Statement List:
+Statement:
+expected: write
+Matched: write
+expected: [a-zA-Z]+
+Matched: A
+Statement List:
+No syntax errors detected.
+</pre>
+<h3>Run number 2</h3>
+<hr>
+Your assignment will be run with the following input:
+<hr>
+<pre>A := 1 + 2
+X := Y * Z
+write A
+write X
+</pre>
+<hr>
+Running...
+<hr>
+<pre>Start Program:
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: A
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [0-9]+
+Matched: 1
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [0-9]+
+Matched: 2
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: X
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [a-zA-Z]+
+Matched: Y
+operation:
+expected: [-\+\*/]+
+Matched: *
+term:
+expected: [a-zA-Z]+
+Matched: Z
+Statement List:
+Statement:
+expected: write
+Matched: write
+expected: [a-zA-Z]+
+Matched: A
+Statement List:
+Statement:
+expected: write
+Matched: write
+expected: [a-zA-Z]+
+Matched: X
+Statement List:
+No syntax errors detected.
+</pre>
+<h3>Run number 3</h3>
+<hr>
+Your assignment will be run with the following input:
+<hr>
+<pre>a := 0 + 0
+for i 1 10
+    a := a + 5
+rof
+write a
+</pre>
+<hr>
+Running...
+<hr>
+<pre>Start Program:
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: a
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [0-9]+
+Matched: 0
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [0-9]+
+Matched: 0
+Statement List:
+Statement:
+expected: for
+Matched: for
+expected: [a-zA-Z]+
+Matched: i
+expected: [0-9]+
+Matched: 1
+expected: [0-9]+
+Matched: 10
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: a
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [a-zA-Z]+
+Matched: a
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [0-9]+
+Matched: 5
+Statement List:
+expected: rof
+Matched: rof
+Statement List:
+Statement:
+expected: write
+Matched: write
+expected: [a-zA-Z]+
+Matched: a
+Statement List:
+No syntax errors detected.
+</pre>
+<h3>Run number 4</h3>
+<hr>
+Your assignment will be run with the following input:
+<hr>
+<pre>a := 0 + 0
+while a &lt;= 100
+    a := a + 5
+    write a
+elihw
+</pre>
+<hr>
+Running...
+<hr>
+<pre>Start Program:
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: a
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [0-9]+
+Matched: 0
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [0-9]+
+Matched: 0
+Statement List:
+Statement:
+expected: while
+Matched: while
+expected: [a-zA-Z]+
+Matched: a
+expected: ==|\!=|&lt;=|&gt;=|&lt;|&gt;
+Matched: &lt;=
+term:
+expected: [0-9]+
+Matched: 100
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: a
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [a-zA-Z]+
+Matched: a
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [0-9]+
+Matched: 5
+Statement List:
+Statement:
+expected: write
+Matched: write
+expected: [a-zA-Z]+
+Matched: a
+Statement List:
+expected: elihw
+Matched: elihw
+Statement List:
+No syntax errors detected.
+</pre>
+<h3>Run number 5</h3>
+<hr>
+Your assignment will be run with the following input:
+<hr>
+<pre>a := 20 + 0
+b := 36 + 0
+while a != b
+    if a &gt; b
+        a := a - b
+    fi
+    if a &lt;= b
+        b := b - a
+    fi
+elihw
+write a
+write b
+</pre>
+<hr>
+Running...
+<hr>
+<pre>Start Program:
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: a
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [0-9]+
+Matched: 20
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [0-9]+
+Matched: 0
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: b
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [0-9]+
+Matched: 36
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [0-9]+
+Matched: 0
+Statement List:
+Statement:
+expected: while
+Matched: while
+expected: [a-zA-Z]+
+Matched: a
+expected: ==|\!=|&lt;=|&gt;=|&lt;|&gt;
+Matched: !=
+term:
+expected: [a-zA-Z]+
+Matched: b
+Statement List:
+Statement:
+expected: if
+Matched: if
+expected: [a-zA-Z]+
+Matched: a
+expected: ==|\!=|&lt;=|&gt;=|&lt;|&gt;
+Matched: &gt;
+term:
+expected: [a-zA-Z]+
+Matched: b
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: a
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [a-zA-Z]+
+Matched: a
+operation:
+expected: [-\+\*/]+
+Matched: -
+term:
+expected: [a-zA-Z]+
+Matched: b
+Statement List:
+expected: fi
+Matched: fi
+Statement List:
+Statement:
+expected: if
+Matched: if
+expected: [a-zA-Z]+
+Matched: a
+expected: ==|\!=|&lt;=|&gt;=|&lt;|&gt;
+Matched: &lt;=
+term:
+expected: [a-zA-Z]+
+Matched: b
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: b
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [a-zA-Z]+
+Matched: b
+operation:
+expected: [-\+\*/]+
+Matched: -
+term:
+expected: [a-zA-Z]+
+Matched: a
+Statement List:
+expected: fi
+Matched: fi
+Statement List:
+expected: elihw
+Matched: elihw
+Statement List:
+Statement:
+expected: write
+Matched: write
+expected: [a-zA-Z]+
+Matched: a
+Statement List:
+Statement:
+expected: write
+Matched: write
+expected: [a-zA-Z]+
+Matched: b
+Statement List:
+No syntax errors detected.
+</pre>
+<h3>Run number 6</h3>
+<hr>
+Your assignment will be run with the following input:
+<hr>
+<pre>for a 1 10
+    for b 2 20
+        if a != b
+            a := b + c
+        fi
+    rof
+rof
+write a
+</pre>
+<hr>
+Running...
+<hr>
+<pre>Start Program:
+Statement List:
+Statement:
+expected: for
+Matched: for
+expected: [a-zA-Z]+
+Matched: a
+expected: [0-9]+
+Matched: 1
+expected: [0-9]+
+Matched: 10
+Statement List:
+Statement:
+expected: for
+Matched: for
+expected: [a-zA-Z]+
+Matched: b
+expected: [0-9]+
+Matched: 2
+expected: [0-9]+
+Matched: 20
+Statement List:
+Statement:
+expected: if
+Matched: if
+expected: [a-zA-Z]+
+Matched: a
+expected: ==|\!=|&lt;=|&gt;=|&lt;|&gt;
+Matched: !=
+term:
+expected: [a-zA-Z]+
+Matched: b
+Statement List:
+Statement:
+expected: [a-zA-Z]+
+Matched: a
+expected: :=
+Matched: :=
+expression:
+term:
+expected: [a-zA-Z]+
+Matched: b
+operation:
+expected: [-\+\*/]+
+Matched: +
+term:
+expected: [a-zA-Z]+
+Matched: c
+Statement List:
+expected: fi
+Matched: fi
+Statement List:
+expected: rof
+Matched: rof
+Statement List:
+expected: rof
+Matched: rof
+Statement List:
+Statement:
+expected: write
+Matched: write
+expected: [a-zA-Z]+
+Matched: a
+Statement List:
+No syntax errors detected.
+</pre>
+<pre></pre>
+
+
+</body></html>
