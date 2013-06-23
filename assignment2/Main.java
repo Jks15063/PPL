@@ -8,21 +8,15 @@ import java.io.*;
 /**
  * CS 3210
  * Main.java
- * Purpose: Use top-down recursion to parse a language.
- * Approach: The structure of the program closely resembles the structure
- * of the grammar that it parses. The goal according to the book is to create a set of
- * subroutines that correspond 1:1 to the non-terminals of the grammar,
- * with no loops or if statements.
- * There are no loops in the program but that are many if statements,
- * perhaps the author simply prefers case statements as seen in the
- * pseudo code.
+ * Purpose:
  *
  * @author Jacob Sellers
- * @version 2.0 refactored to parse files without end of file tokens.
+ * @version 2.0
  * @since 2013-06-10
  */
 class Main {
-    private static Scanner sc = new Scanner(System.in);
+    private static Scanner sc;
+    private static Scanner user_input = new Scanner(System.in);
     private static String token;
     private static Hashtable<String, Integer> variables = new Hashtable<String, Integer>();
     private static boolean execute = true;
@@ -52,21 +46,8 @@ class Main {
     *
     */
     public static void main(String args[]) throws IOException, java.io.FileNotFoundException {
-/*
- *        File file = new File (args[0]);
- *
- *        FileInputStream fis = new FileInputStream (file);
- *
- *        byte buffer[] = new byte[(int) file.length()];
- *        fis.read (buffer, 0, (int) file.length());
- *
- *        String s = new String (buffer);
- *
- *        String[] result = s.split("\\s+");
- *        for (int x=0; x<result.length; x++)
- *            System.out.println(result[x]);
- */
-
+        File file = new File(args[0]);
+        sc = new Scanner(file);
         sc.useDelimiter(tokenPattern);
         program();
     }
@@ -93,7 +74,6 @@ class Main {
     *
     */
     public static void program() {
-        //System.out.println("Start Program:");
         if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern) || !sc.hasNext()) {
             statementList();
             if (!sc.hasNext()) {
@@ -116,7 +96,6 @@ class Main {
     *
     */
     public static void statementList() {
-        //System.out.println("Statement List:");
         if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern)) {
 
             if (sc.hasNext(endIfPattern) || sc.hasNext(endWhilePattern) || sc.hasNext(endForPattern)) {
@@ -139,10 +118,13 @@ class Main {
     *
     */
     public static void statement() {
-        //System.out.println("Statement:");
         if (sc.hasNext(readPattern)) {
             match(readPattern);
             match(idPattern);
+            if (execute) {
+                System.out.println("Enter a number");
+                variables.put(token, Integer.parseInt(user_input.next()));
+            }
         }
         else if (sc.hasNext(writePattern)) {
             match(writePattern);
@@ -199,7 +181,6 @@ class Main {
     *
     */
     public static Integer expression() {
-        //System.out.println("expression:");
         if (sc.hasNext(idPattern) || sc.hasNext(numberPattern)) {
             Integer termA = term();
             String op = operation();
@@ -228,7 +209,6 @@ class Main {
     *
     */
     public static Integer term() {
-        //System.out.println("term:");
         if (sc.hasNext(idPattern)) {
             match(idPattern);
             return variables.get(token);
@@ -248,7 +228,6 @@ class Main {
     *
     */
     public static String operation() {
-        //System.out.println("operation:");
         if (sc.hasNext(operationPattern)) {
             match(operationPattern);
             return token;
