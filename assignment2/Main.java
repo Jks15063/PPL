@@ -26,6 +26,7 @@ class Main {
     private static String token;
     private static Hashtable<String, Integer> variables = new Hashtable<String, Integer>();
     private static boolean execute = true;
+    private static Integer ifCount = 0;
 
     //The token pattern matches white space, and unprintable chars such as a newline.
     private static Pattern tokenPattern = Pattern.compile("[ \r\n\t]+");
@@ -167,8 +168,17 @@ class Main {
         else if (sc.hasNext(startIfPattern)) {
             match(startIfPattern);
             execute = condition();
+            if (!execute) {
+                ifCount++;
+            }
             statementList();
             match(endIfPattern);
+            if (!execute) {
+                ifCount--;
+            }
+            if (ifCount == 0) {
+                execute = true;
+            }
         }
         else if (sc.hasNext(idPattern)) {
             match(idPattern);
@@ -182,7 +192,6 @@ class Main {
         else {
             error("statement");
         }
-        execute = true;
     }
 
    /**
