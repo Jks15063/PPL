@@ -1,7 +1,9 @@
 
 import java.util.regex.*;
-import java.io.*;
 import java.util.Scanner;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
+import java.io.*;
 
 /**
  * CS 3210
@@ -16,12 +18,14 @@ import java.util.Scanner;
  * pseudo code.
  *
  * @author Jacob Sellers
- * @version 1.1 refactored to parse files without end of file tokens.
+ * @version 2.0 refactored to parse files without end of file tokens.
  * @since 2013-06-10
  */
 class Main {
     private static Scanner sc = new Scanner(System.in);
     private static String token;
+    private static Hashtable<String, Integer> variables = new Hashtable<String, Integer>();
+    private static boolean execute = true;
 
     //The token pattern matches white space, and unprintable chars such as a newline.
     private static Pattern tokenPattern = Pattern.compile("[ \r\n\t]+");
@@ -46,7 +50,22 @@ class Main {
     * @exception IOException
     *
     */
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, java.io.FileNotFoundException {
+/*
+ *        File file = new File (args[0]);
+ *
+ *        FileInputStream fis = new FileInputStream (file);
+ *
+ *        byte buffer[] = new byte[(int) file.length()];
+ *        fis.read (buffer, 0, (int) file.length());
+ *
+ *        String s = new String (buffer);
+ *
+ *        String[] result = s.split("\\s+");
+ *        for (int x=0; x<result.length; x++)
+ *            System.out.println(result[x]);
+ */
+
         sc.useDelimiter(tokenPattern);
         program();
     }
@@ -58,10 +77,10 @@ class Main {
     * @param Pattern the regular expression used to validate the next token.
     */
     public static void match(Pattern expected) {
-        System.out.println("expected: " + expected);
+        //System.out.println("expected: " + expected);
         if (sc.hasNext(expected)) {
             token = sc.next();
-            System.out.println("Matched: " + token);
+            //System.out.println("Matched: " + token);
         }
         else {
             error("match");
@@ -73,7 +92,7 @@ class Main {
     *
     */
     public static void program() {
-        System.out.println("Start Program:");
+        //System.out.println("Start Program:");
         if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern) || !sc.hasNext()) {
             statementList();
             if (!sc.hasNext()) {
@@ -96,7 +115,7 @@ class Main {
     *
     */
     public static void statementList() {
-        System.out.println("Statement List:");
+        //System.out.println("Statement List:");
         if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern)) {
 
             if (sc.hasNext(endIfPattern) || sc.hasNext(endWhilePattern) || sc.hasNext(endForPattern)) {
@@ -119,7 +138,7 @@ class Main {
     *
     */
     public static void statement() {
-        System.out.println("Statement:");
+        //System.out.println("Statement:");
         if (sc.hasNext(readPattern)) {
             match(readPattern);
             match(idPattern);
@@ -127,6 +146,9 @@ class Main {
         else if (sc.hasNext(writePattern)) {
             match(writePattern);
             match(idPattern);
+            if (execute) {
+                System.out.println(token + " is equal to: " + variables.get(token));
+            }
         }
         else if (sc.hasNext(startWhilePattern)) {
             match(startWhilePattern);
@@ -144,50 +166,71 @@ class Main {
         }
         else if (sc.hasNext(startIfPattern)) {
             match(startIfPattern);
-            condition();
+            execute = condition();
             statementList();
             match(endIfPattern);
         }
         else if (sc.hasNext(idPattern)) {
             match(idPattern);
+            String tempID = token;
             match(assignmentPattern);
-            expression();
+            Integer tempInt = expression();
+            if (execute) {
+                variables.put(tempID, tempInt);
+            }
         }
         else {
             error("statement");
         }
+        execute = true;
     }
 
    /**
     * Checks for valid expression syntax.
     *
     */
-    public static void expression() {
-        System.out.println("expression:");
+    public static Integer expression() {
+        //System.out.println("expression:");
         if (sc.hasNext(idPattern) || sc.hasNext(numberPattern)) {
-            term();
-            operation();
-            term();
+            Integer termA = term();
+            String op = operation();
+            Integer termB = term();
+            if (op.equals("+")) {
+                return termA + termB;
+            }
+            if (op.equals("-")) {
+                return termA - termB;
+            }
+            if (op.equals("*")) {
+                return termA * termB;
+            }
+            if (op.equals("/")) {
+                return termA / termB;
+            }
         }
         else {
             error("expression");
         }
+        return null;
     }
 
    /**
     * Checks for valid term syntax.
     *
     */
-    public static void term() {
-        System.out.println("term:");
+    public static Integer term() {
+        //System.out.println("term:");
         if (sc.hasNext(idPattern)) {
             match(idPattern);
+            return variables.get(token);
         }
         else if (sc.hasNext(numberPattern)) {
             match(numberPattern);
+            return Integer.parseInt(token);
         }
         else {
             error("term");
+            return null;
         }
     }
 
@@ -195,13 +238,15 @@ class Main {
     * Checks for valid operation syntax.
     *
     */
-    public static void operation() {
-        System.out.println("operation:");
+    public static String operation() {
+        //System.out.println("operation:");
         if (sc.hasNext(operationPattern)) {
             match(operationPattern);
+            return token;
         }
         else {
             error("operation");
+            return null;
         }
     }
 
@@ -209,27 +254,63 @@ class Main {
     * Checks for valid condition syntax.
     *
     */
-    public static void condition() {
+    public static boolean condition() {
         if (sc.hasNext(idPattern)) {
             match(idPattern);
-            comparison();
-            term();
+            Integer tempInt = variables.get(token);
+            String compOp = comparison();
+            Integer termC = term();
+            if (execute) {
+                if (compOp.equals("==")) {
+                    if (tempInt == termC) {
+                        return true;
+                    }
+                }
+                if (compOp.equals("!=")) {
+                    if (tempInt != termC) {
+                        return true;
+                    }
+                }
+                if (compOp.equals("<")) {
+                    if (tempInt < termC) {
+                        return true;
+                    }
+                }
+                if (compOp.equals(">")) {
+                    if (tempInt > termC) {
+                        return true;
+                    }
+                }
+                if (compOp.equals("<=")) {
+                    if (tempInt <= termC) {
+                        return true;
+                    }
+                }
+                if (compOp.equals(">=")) {
+                    if (tempInt >= termC) {
+                        return true;
+                    }
+                }
+            }
         }
         else {
             error("condition");
         }
+        return false;
     }
 
    /**
     * Checks for valid comparison syntax.
     *
     */
-    public static void comparison() {
+    public static String comparison() {
         if (sc.hasNext(comparisonPattern)) {
             match(comparisonPattern);
+            return token;
         }
         else {
             error("comparison");
+            return null;
         }
     }
 
@@ -244,75 +325,3 @@ class Main {
         System.exit(-1);
     }
 }
-
-
-//Tests:
-//My tests started of very simple to test for individual cases such as:
-
-/*
- * a := a + 1
- */
-
-//then:
-
-/*
- * if a < b
- *     a := a + 1
- * fi
- */
-
-//then:
-
-/*
- * while a < 10
- *     if a < b
- *         a := a + 1
- *     fi
- * elihw
- */
-
-//and finally:
-
-/*
- * read input
- * write filename
- *
- * for a 1 10
- *     while v >= t
- *         if x <= u
- *             if x != 0
- *                 asdf := x + 1
- *                 Y := x / 2
- *                 z := x * 5
- *                 i := x - 1
- *             fi
- *         fi
- *     elihw
- *
- *     while b == r
- *         if b < 5
- *             b := b - 1
- *         fi
- *         if b > 3
- *             for var 2 26
- *                 if varName == 123456
- *                     b := b + 3
- *                     write fileName
- *                 fi
- *             rof
- *             varName := 45 + 34
- *         fi
- *     elihw
- * rof
- */
-
-/*
- * I made sure there were lots of nested statements of different types
- * and tried to use all the possible cases.  After this was being parsed
- * successfully, I started removing and adding things or just mixing them up
- * to check that not only was it catching the bad syntax but catching it for
- * the right reasons and at the right places.  For example: I found at one point
- * that I could remove all the 'fi's and still get a successful parse, and after
- * fixing that problem I found that I could remove the if statements
- * themselves but leave in the 'fi's and still get a successful parse.
- */
