@@ -22,6 +22,8 @@ class Main {
     private static boolean execute = true;
     private static Integer ifCount = 0;
     private static Integer whileCount = 0;
+    private static String[] result;
+    private static Integer i = 0;
 
     //The token pattern matches white space, and unprintable chars such as a newline.
     private static Pattern tokenPattern = Pattern.compile("[ \r\n\t]+");
@@ -48,8 +50,15 @@ class Main {
     */
     public static void main(String args[]) throws IOException, java.io.FileNotFoundException {
         File file = new File(args[0]);
-        sc = new Scanner(file);
-        sc.useDelimiter(tokenPattern);
+        FileInputStream fis = new FileInputStream(file);
+        byte buffer[] = new byte[(int) file.length()];
+        fis.read(buffer, 0, (int) file.length());
+        String s = new String(buffer);
+
+        result = s.split("\\s+");
+
+        //sc = new Scanner(file);
+        //sc.useDelimiter(tokenPattern);
         program();
     }
 
@@ -60,10 +69,9 @@ class Main {
     * @param Pattern the regular expression used to validate the next token.
     */
     public static void match(Pattern expected) {
-        //System.out.println("expected: " + expected);
         if (sc.hasNext(expected)) {
-            token = sc.next();
-            //System.out.println("Matched: " + token);
+            //token = sc.next();
+            token = result[i++];
         }
         else {
             error("match");
@@ -75,9 +83,11 @@ class Main {
     *
     */
     public static void program() {
-        if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern) || !sc.hasNext()) {
+        //if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern) || !sc.hasNext()) {
+        if (result[i].matches(readPattern) || result[i].matches(writePattern) || result[i].matches(startWhilePattern) || result[i].matches(startForPattern) || result[i].matches(idPattern) || i == result.length) {
             statementList();
-            if (!sc.hasNext()) {
+            //if (!sc.hasNext()) {
+            if (i == result.length) {
                 System.out.println("No syntax errors detected.");
             }
             else {
@@ -97,15 +107,17 @@ class Main {
     *
     */
     public static void statementList() {
-        if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern)) {
-
-            if (sc.hasNext(endIfPattern) || sc.hasNext(endWhilePattern) || sc.hasNext(endForPattern)) {
+        //if (sc.hasNext(readPattern) || sc.hasNext(writePattern) || sc.hasNext(startWhilePattern) || sc.hasNext(startForPattern) || sc.hasNext(idPattern)) {
+        if (result[i].matches(readPattern) || result[i].matches(writePattern) || result[i].matches(startWhilePattern) || result[i].matches(startForPattern) || result[i].matches(idPattern)) {
+            //if (sc.hasNext(endIfPattern) || sc.hasNext(endWhilePattern) || sc.hasNext(endForPattern)) {
+            if (result[i].matches(endIfPattern) || result[i].matches(endWhilePattern) || result[i].matches(endForPattern)) {
                 return;
             }
             statement();
             statementList();
         }
-        else if (!sc.hasNext()) {
+        //else if (!sc.hasNext()) {
+        else if (i == result.length) {
             return;
         }
         else {
@@ -119,7 +131,8 @@ class Main {
     *
     */
     public static void statement() {
-        if (sc.hasNext(readPattern)) {
+        //if (sc.hasNext(readPattern)) {
+        if (result[i].matches(readPattern)) {
             match(readPattern);
             match(idPattern);
             if (execute) {
@@ -127,14 +140,16 @@ class Main {
                 variables.put(token, Integer.parseInt(user_input.next()));
             }
         }
-        else if (sc.hasNext(writePattern)) {
+        //else if (sc.hasNext(writePattern)) {
+        else if (result[i].matches(writePattern)) {
             match(writePattern);
             match(idPattern);
             if (execute) {
                 System.out.println(token + " is equal to: " + variables.get(token));
             }
         }
-        else if (sc.hasNext(startWhilePattern)) {
+        //else if (sc.hasNext(startWhilePattern)) {
+        else if (result[i].matches(startWhilePattern)) {
             match(startWhilePattern);
             execute = condition();
             if (!execute) {
@@ -149,7 +164,8 @@ class Main {
                 execute = true;
             }
         }
-        else if (sc.hasNext(startForPattern)) {
+        //else if (sc.hasNext(startForPattern)) {
+        else if (result[i].matches(startForPattern)) {
             match(startForPattern);
             match(idPattern);
             match(numberPattern);
@@ -157,7 +173,8 @@ class Main {
             statementList();
             match(endForPattern);
         }
-        else if (sc.hasNext(startIfPattern)) {
+        //else if (sc.hasNext(startIfPattern)) {
+        else if (result[i].matches(startIfPattern)) {
             match(startIfPattern);
             execute = condition();
             if (!execute) {
@@ -172,7 +189,8 @@ class Main {
                 execute = true;
             }
         }
-        else if (sc.hasNext(idPattern)) {
+        //else if (sc.hasNext(idPattern)) {
+        else if (result[i].matches(idPattern)) {
             match(idPattern);
             String tempID = token;
             match(assignmentPattern);
@@ -191,20 +209,21 @@ class Main {
     *
     */
     public static Integer expression() {
-        if (sc.hasNext(idPattern) || sc.hasNext(numberPattern)) {
+        //if (sc.hasNext(idPattern) || sc.hasNext(numberPattern)) {
+        if (result[i].matches(idPattern) || result[i].matches(numberPattern)) {
             Integer termA = term();
             String op = operation();
             Integer termB = term();
-            if (op.equals("+")) {
+            if (op.matches("+")) {
                 return termA + termB;
             }
-            if (op.equals("-")) {
+            if (op.matches("-")) {
                 return termA - termB;
             }
-            if (op.equals("*")) {
+            if (op.matches("*")) {
                 return termA * termB;
             }
-            if (op.equals("/")) {
+            if (op.matches("/")) {
                 return termA / termB;
             }
         }
@@ -219,11 +238,13 @@ class Main {
     *
     */
     public static Integer term() {
-        if (sc.hasNext(idPattern)) {
+        //if (sc.hasNext(idPattern)) {
+        if (result[i].matches(idPattern)) {
             match(idPattern);
             return variables.get(token);
         }
-        else if (sc.hasNext(numberPattern)) {
+        //else if (sc.hasNext(numberPattern)) {
+        else if (result[i].matches(numberPattern)) {
             match(numberPattern);
             return Integer.parseInt(token);
         }
@@ -238,7 +259,8 @@ class Main {
     *
     */
     public static String operation() {
-        if (sc.hasNext(operationPattern)) {
+        //if (sc.hasNext(operationPattern)) {
+        if (result[i].matches(operationPattern)) {
             match(operationPattern);
             return token;
         }
@@ -253,38 +275,39 @@ class Main {
     *
     */
     public static boolean condition() {
-        if (sc.hasNext(idPattern)) {
+        //if (sc.hasNext(idPattern)) {
+        if (result[i].matches(idPattern)) {
             match(idPattern);
             Integer tempInt = variables.get(token);
             String compOp = comparison();
             Integer termC = term();
             if (execute) {
-                if (compOp.equals("==")) {
+                if (compOp.matches("==")) {
                     if (tempInt == termC) {
                         return true;
                     }
                 }
-                if (compOp.equals("!=")) {
+                if (compOp.matches("!=")) {
                     if (tempInt != termC) {
                         return true;
                     }
                 }
-                if (compOp.equals("<")) {
+                if (compOp.matches("<")) {
                     if (tempInt < termC) {
                         return true;
                     }
                 }
-                if (compOp.equals(">")) {
+                if (compOp.matches(">")) {
                     if (tempInt > termC) {
                         return true;
                     }
                 }
-                if (compOp.equals("<=")) {
+                if (compOp.matches("<=")) {
                     if (tempInt <= termC) {
                         return true;
                     }
                 }
-                if (compOp.equals(">=")) {
+                if (compOp.matches(">=")) {
                     if (tempInt >= termC) {
                         return true;
                     }
@@ -302,7 +325,8 @@ class Main {
     *
     */
     public static String comparison() {
-        if (sc.hasNext(comparisonPattern)) {
+        //if (sc.hasNext(comparisonPattern)) {
+        if (result[i].matches(comparisonPattern)) {
             match(comparisonPattern);
             return token;
         }
